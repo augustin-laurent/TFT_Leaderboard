@@ -44,7 +44,6 @@ async function getPlayerData(username: string) {
         const puuid = await getPlayerPUUID(riotName, riotTag);
         const id = await getPlayerID(puuid);
         const data = await getPlayerInformation(id);
-        console.log("data", data);
         const matches = await getMatches(puuid);
         const lastMatches = await getInformationLastMatches(matches[0]);
         

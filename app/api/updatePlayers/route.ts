@@ -12,7 +12,6 @@ export async function GET() {
         const players = await Player.find();
 
         for(const player of players) {
-            console.log("Player: ", player);
             const riotName = await getRiotName(player.puuid);
 
             const data = await getPlayerInformation(player.riotId);
