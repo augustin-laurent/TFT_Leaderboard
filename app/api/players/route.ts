@@ -17,6 +17,11 @@ export async function POST(req: Request) {
     await connectDB();
     const username = await req.json();
     const newPlayer = await getPlayerData(username.riotName);
+
+    if (!newPlayer) {
+        return NextResponse.json({ message: "Player data not found" });
+    }
+
     try {
         await newPlayer.save();
     }
@@ -39,7 +44,6 @@ async function getPlayerData(username: string) {
         const puuid = await getPlayerPUUID(riotName, riotTag);
         const id = await getPlayerID(puuid);
         const data = await getPlayerInformation(id);
-        console.log("data", data);
         const matches = await getMatches(puuid);
         const lastMatches = await getInformationLastMatches(matches[0]);
         
