@@ -1,20 +1,11 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
 
-export type User = {
-    riotName: string;
-    lp: number;
-    wins: number;
-    losses: number;
-    winrate: string;
-    rank: string;
-    lastUpdated: string;
-    lastMatch: string;
-}
+import { IPlayer } from "@/models/player";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<IPlayer>[] = [
     {
-        header: "Riot Name",
+        header: "Nickname",
         accessorKey: "riotName",
     },
     {
