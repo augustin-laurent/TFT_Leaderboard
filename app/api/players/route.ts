@@ -17,6 +17,11 @@ export async function POST(req: Request) {
     await connectDB();
     const username = await req.json();
     const newPlayer = await getPlayerData(username.riotName);
+
+    if (!newPlayer) {
+        return NextResponse.json({ message: "Player data not found" });
+    }
+
     try {
         await newPlayer.save();
     }
