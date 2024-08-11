@@ -170,9 +170,41 @@ export async function DELETE(req: Request) {
 }
 ```
 
+## Obtaining API Keys and Setting Up Databases
+
+To run this project, you'll need to obtain a Riot API key, set up a MongoDB database on Atlas, and generate a Clerk API key for authentication. Below are the steps to do this:
+
+### 1. Obtaining a Riot API Key
+
+Visit the Riot Developer Portal.\
+Log in with your Riot account or create a new account if you don’t have one.\
+Once logged in, navigate to the "Dashboard."\
+Click on "Create New Application" and fill out the required details.\
+After creating the application, you will receive an API key. Copy this key.\
+Paste the key into your .env.local file as the value for RIOT_API_KEY.
+
+### 2. Setting Up a MongoDB Database on Atlas
+
+Visit the MongoDB Atlas website.
+Sign in with your MongoDB account or create a new one.\
+Click on "Create a New Cluster" and follow the prompts to set up your cluster. You can choose a free tier for development purposes.\
+After the cluster is created, click on "Connect" and follow the instructions to whitelist your IP and create a database user.\
+You will receive a connection string that looks like ```mongodb+srv://<username>:<password>@cluster0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority.```\
+Replace ```<username>``` , ```<password>```, and myFirstDatabase with your credentials and database (not collection) name.\
+Paste the connection string into your .env.local file as the value for MONGODB_URI.
+
+### 3. Obtaining a Clerk API Key
+
+Visit the Clerk Dashboard.\
+Sign up or log in with your Clerk account.\
+Navigate to "API Keys" under the "Settings" section.\
+Click on "Create API Key" and select the appropriate permissions.\
+Copy the generated API key.\
+Paste the key into your .env.local file as the value for CLERK_API_KEY.
+
 ## Environment Variables
 
-To initialize the project, you need to fill out the [`.env.local`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2F.env.local%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "/home/augustin/tft-leaderboard/.env.local") file with the necessary environment variables. Create a [`.env.local`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2F.env.local%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "/home/augustin/tft-leaderboard/.env.local") file in the root directory of your project and add the following variables:
+To initialize the project, you need to fill out the [`.env.local`] file with the necessary environment variables. Rename [`.env.local.example`] to [`.env.local`] file in the root directory of your project and add the following variables:
 
 ```
 # Riot API Key
@@ -186,6 +218,7 @@ CLERK_API_KEY=your_clerk_api_key
 ```
 
 Replace `your_riot_api_key`, `your_mongodb_connection_string`, and `your_clerk_api_key` with your actual keys.
+
 
 ## Learn More
 
