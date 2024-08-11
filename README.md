@@ -204,7 +204,7 @@ Paste the key into your .env.local file as the value for CLERK_API_KEY.
 
 ## Environment Variables
 
-To initialize the project, you need to fill out the [`.env.local`] file with the necessary environment variables. Rename [`.env.local.example`] to [`.env.local`] file in the root directory of your project and add the following variables:
+To initialize the project, you need to fill out the [`.env.local`] file with the necessary environment variables. Rename [`.env.local.example`] to [`.env.local`] file in the root directory of your project and fill the following variables:
 
 ```
 # Riot API Key
@@ -215,9 +215,10 @@ MONGODB_URI=your_mongodb_connection_string
 
 # Clerk API Key (if using Clerk for authentication)
 CLERK_API_KEY=your_clerk_api_key
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 ```
 
-Replace `your_riot_api_key`, `your_mongodb_connection_string`, and `your_clerk_api_key` with your actual keys.
+Replace `your_riot_api_key`, `your_mongodb_connection_string`, `your_clerk_api_key` and `your_clerk_publishable_key` with your actual keys.
 
 
 ## Learn More
