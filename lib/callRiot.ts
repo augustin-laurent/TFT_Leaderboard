@@ -1,5 +1,5 @@
 async function getPlayerPUUID(nickname: string, tag: string) {
-  const url = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${nickname}/${tag}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${nickname}/${tag}?api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -13,7 +13,7 @@ async function getPlayerPUUID(nickname: string, tag: string) {
 }
 
 async function getPlayerID(puuid: string) {
-  const url = `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}?api_key=${process.env._RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -27,7 +27,7 @@ async function getPlayerID(puuid: string) {
 }
 
 async function getPlayerInformation(id: string) {
-  const url = `https://euw1.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://euw1.api.riotgames.com/tft/league/v1/entries/by-summoner/${id}?api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -53,7 +53,7 @@ async function getPlayerInformation(id: string) {
 }
 
 async function getMatches(puuid: string) {
-  const url = `https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://europe.api.riotgames.com/tft/match/v1/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -67,7 +67,7 @@ async function getMatches(puuid: string) {
 }
 
 async function getInformationLastMatches(matchesID: string) {
-  const url = `https://europe.api.riotgames.com/tft/match/v1/matches/${matchesID}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://europe.api.riotgames.com/tft/match/v1/matches/${matchesID}?api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -81,7 +81,7 @@ async function getInformationLastMatches(matchesID: string) {
 }
 
 async function getRiotName(puuid: string) {
-  const url = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`;
+  const url = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
