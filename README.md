@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TFT Leaderboard
+
+This is a [Next.js](https://nextjs.org/) project for managing and displaying a leaderboard for Teamfight Tactics (TFT) players. The application allows users to view player statistics, and admin users to add, update, and delete players.
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- Components
+- [API Endpoints](#api-endpoints)
+- [Player Management Functions](#player-management-functions)
 
 ## Getting Started
 
@@ -16,9 +26,148 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+.env.local
+.eslintrc.json
+.gitignore
+.next/
+app/
+	api/
+	columns/
+	globals.css
+	layout.tsx
+	page.tsx
+components/
+	DataTable.tsx
+	Footer.tsx
+	Header.tsx
+	PlayerInput.tsx
+	ui/
+components.json
+lib/
+	callRiot.ts
+	db.ts
+middleware.ts
+models/
+	player.ts
+next-env.d.ts
+next.config.mjs
+package.json
+postcss.config.mjs
+public/
+README.md
+tailwind.config.ts
+tsconfig.json
+```
+
+## Components
+
+### [`app/page.tsx`]
+
+The main page of the application. It fetches and displays the list of players and includes the [`PlayerInput`] component for adding new players.
+
+### [`components/DataTable.tsx`]
+
+Displays the player data in a table format. It uses the `Table` components from [`components/ui/table.tsx`] (ShadCN).
+
+### [`components/Footer.tsx`]
+
+A simple footer component.
+
+### [`components/Header.tsx`]
+
+A simple header component, contain the button to log in and manage account via Clerk.
+
+### [`components/PlayerInput.tsx`]
+
+Allows admin users to add and delete players. It includes an input field for adding new players that is restricted to Username#TAG format for Riot account.
+
+## API Endpoints
+
+### [`app/api/players/route.ts`]
+
+- **GET**: Fetches the list of players.
+- **POST**: Adds a new player.
+- **DELETE**: Deletes a player.
+
+### [`app/api/updatePlayers/route.ts`]
+
+- **GET**: Updates the player data by fetching the latest information from the Riot API.
+
+## Player Management Functions
+
+### Create Player
+
+To create a player, send a POST request to `/api/players` with the player's information.
+
+```ts
+export async function POST(req: Request) {
+  const { username } = await req.json();
+  const playerData = await getPlayerData(username);
+  const newPlayer = new Player(playerData);
+  await newPlayer.save();
+  return NextResponse.json(newPlayer);
+}
+```
+
+### Update Player
+
+To update players, send a GET request to `/api/updatePlayers`. This will fetch the latest data from the Riot API and update the player records in the database.
+
+```ts
+export async function GET() {
+  try {
+    await connectDB();
+    const players = await Player.find();
+
+    for (const player of players) {
+      const riotName = await getRiotName(player.puuid);
+      const data = await getPlayerInformation(player.riotId);
+      const matches = await getMatches(player.puuid);
+      const lastMatches = await getInformationLastMatches(matches[0]);
+
+      const currentDate = new Date();
+      const lastUpdate = format(currentDate, "dd/MM/yyyy");
+
+      const lastMatchDate = new Date(lastMatches.info.game_datetime);
+      const lastMatch = format(lastMatchDate, "dd/MM/yyyy");
+
+      await Player.findByIdAndUpdate(player._id, {
+        riotName: riotName,
+        lp: data[0].leaguePoints,
+        wins: data[0].wins,
+        losses: data[0].losses,
+        winrate: `${(
+          (data[0].wins / (data[0].wins + data[0].losses)) *
+          100
+        ).toFixed(2)}%`,
+        rank: data[0].tier + " " + data[0].rank,
+        lastUpdated: lastUpdate,
+        lastMatch: lastMatch,
+      });
+    }
+    console.log("Players updated");
+    return NextResponse.json({ message: "Players updated" });
+  } catch (error) {
+    console.error("Error updating players", error);
+    return NextResponse.json({ message: "Error updating players" });
+  }
+}
+```
+
+### Delete Player
+
+To delete a player, send a DELETE request to `/api/players` with the player's ID.
+
+```ts
+export async function DELETE(req: Request) {
+  const { id } = await req.json();
+  await Player.findByIdAndDelete(id);
+  return NextResponse.json({ message: "Player deleted" });
+}
+```
 
 ## Learn More
 
@@ -31,6 +180,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
