@@ -12,7 +12,7 @@ import { DataTable } from "@/components/DataTable";
 import { PlayerInput } from "@/components/PlayerInput";
 import { Header } from "@/components/Header";
 
-import { columns } from "@/app/columns/column";
+import { Columns } from "@/app/columns/column";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
     <main className="w-screen h-screen flex flex-col">
       <Header />
       <div className="container flex flex-col justify-center items-center flex-grow">
-        <DataTable columns={columns} data={players} />
+        <DataTable columns={Columns()} data={players} />
         <SignedIn>
           <PlayerInput
             players={players}

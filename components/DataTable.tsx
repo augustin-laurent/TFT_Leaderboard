@@ -23,6 +23,7 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  fetchPlayers?: () => void;
 }
 
 function getRankImage(rank: string) {
@@ -34,6 +35,7 @@ function getRankImage(rank: string) {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  fetchPlayers,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
