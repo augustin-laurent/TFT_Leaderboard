@@ -8,13 +8,13 @@ export const metadata: Metadata = {
   description: "A leaderboard for TFT players",
 };
 
-export default function RootLayout({ children }: Readonly<{children: React.ReactNode}>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="bg-cover bg-no-repeat bg-tft-set-12">
-          {children}
-        </body>
+        <body className="bg-cover bg-no-repeat bg-tft-set-12">{children}</body>
       </html>
     </ClerkProvider>
   );
