@@ -9,6 +9,7 @@ This is a [Next.js](https://nextjs.org/) project for managing and displaying a l
 - Components
 - [API Endpoints](#api-endpoints)
 - [Player Management Functions](#player-management-functions)
+- [Environment Variables](#environment-variables)
 
 ## Getting Started
 
@@ -34,24 +35,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 .gitignore
 .next/
 app/
-	api/
-	columns/
-	globals.css
-	layout.tsx
-	page.tsx
+    api/
+    columns/
+    globals.css
+    layout.tsx
+    page.tsx
 components/
-	DataTable.tsx
-	Footer.tsx
-	Header.tsx
-	PlayerInput.tsx
-	ui/
+    DataTable.tsx
+    Footer.tsx
+    Header.tsx
+    PlayerInput.tsx
+    ui/
 components.json
 lib/
-	callRiot.ts
-	db.ts
+    callRiot.ts
+    db.ts
 middleware.ts
 models/
-	player.ts
+    player.ts
 next-env.d.ts
 next.config.mjs
 package.json
@@ -70,7 +71,7 @@ The main page of the application. It fetches and displays the list of players an
 
 ### [`components/DataTable.tsx`]
 
-Displays the player data in a table format. It uses the `Table` components from [`components/ui/table.tsx`] (ShadCN).
+Displays the player data in a table format. It uses the [`Table`](command:_github.copilot.openSymbolFromReferences?%5B%22Table%22%2C%5B%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2FREADME.md%22%2C%22external%22%3A%22file%3A%2F%2F%2Fhome%2Faugustin%2Ftft-leaderboard%2FREADME.md%22%2C%22path%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2FREADME.md%22%2C%22scheme%22%3A%22file%22%7D%2C%22pos%22%3A%7B%22line%22%3A4%2C%22character%22%3A3%7D%7D%5D%5D "Go to definition") components from [`components/ui/table.tsx`] (ShadCN).
 
 ### [`components/Footer.tsx`]
 
@@ -168,6 +169,23 @@ export async function DELETE(req: Request) {
   return NextResponse.json({ message: "Player deleted" });
 }
 ```
+
+## Environment Variables
+
+To initialize the project, you need to fill out the [`.env.local`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2F.env.local%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "/home/augustin/tft-leaderboard/.env.local") file with the necessary environment variables. Create a [`.env.local`](command:_github.copilot.openRelativePath?%5B%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fhome%2Faugustin%2Ftft-leaderboard%2F.env.local%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%5D "/home/augustin/tft-leaderboard/.env.local") file in the root directory of your project and add the following variables:
+
+```
+# Riot API Key
+RIOT_API_KEY=your_riot_api_key
+
+# MongoDB Connection String
+MONGODB_URI=your_mongodb_connection_string
+
+# Clerk API Key (if using Clerk for authentication)
+CLERK_API_KEY=your_clerk_api_key
+```
+
+Replace `your_riot_api_key`, `your_mongodb_connection_string`, and `your_clerk_api_key` with your actual keys.
 
 ## Learn More
 
