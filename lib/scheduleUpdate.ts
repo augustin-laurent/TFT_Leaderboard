@@ -1,5 +1,8 @@
 import axios from "axios";
 
+/**
+ * @deprecated The method should not be used
+ */
 export default function schedulePlayerUpdate() {
   setInterval(async () => {
     try {

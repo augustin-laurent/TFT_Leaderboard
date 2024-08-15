@@ -150,7 +150,7 @@ export function Columns() {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Last
+            Last Match
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
