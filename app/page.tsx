@@ -6,7 +6,6 @@ import { SignedIn } from "@clerk/nextjs";
 import { IPlayer } from "@/models/player";
 
 import axios from "axios";
-import schedulePlayerUpdate from "@/lib/scheduleUpdate";
 
 import { DataTable } from "@/components/DataTable";
 import { PlayerInput } from "@/components/PlayerInput";
@@ -14,6 +13,7 @@ import { Header } from "@/components/Header";
 
 import { Columns } from "@/app/columns/column";
 import { Footer } from "@/components/Footer";
+import { UpdateButton } from "@/components/UpdateButton";
 
 export default function Home() {
   const [players, setPlayers] = useState<IPlayer[]>([]);
@@ -33,6 +33,7 @@ export default function Home() {
       <div className="container flex flex-col justify-center items-center flex-grow">
         <DataTable columns={Columns()} data={players} />
         <SignedIn>
+          <UpdateButton />
           <PlayerInput
             players={players}
             setPlayers={setPlayers}
