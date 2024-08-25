@@ -6,7 +6,7 @@ export function UpdateButton() {
   const { user } = useUser();
 
   const handleUpdate = async () => {
-    if (user.publicMetadata.role === "approved" || user.publicMetadata.role === "admin") {
+    if (user && user.publicMetadata && (user.publicMetadata.role === "approved" || user.publicMetadata.role === "admin")) {
       await updateTable();
     } else {
       console.log("User is not approved to update the table.");
