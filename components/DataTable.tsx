@@ -19,14 +19,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Loader2 } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  fetchPlayers?: () => void;
+  loading: boolean;
 }
 
 function getRankImage(rank: string) {
+  if (!rank) {
+    const imagePath = "/rank/unranked.png";
+    return imagePath;
+  }
   const rankPrefix = rank.split(" ")[0];
   const imagePath = `/rank/${rankPrefix.toLowerCase()}.png`;
   return imagePath;
@@ -35,8 +40,9 @@ function getRankImage(rank: string) {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  fetchPlayers,
+  loading,
 }: DataTableProps<TData, TValue>) {
+
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -50,68 +56,74 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full rounded-md border-2 border-slate-300 m-4 overflow-hidden">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    key={header.id}
-                    className="bg-blue-900 text-white font-bold border-b-4 border-slate-300"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+      {loading ? (
+        <div className="flex justify-center items-center h-24">
+          <Loader2 className="animate-spin" />
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      className="bg-blue-900 text-white font-bold border-b-4 border-slate-300"
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                  </TableHead>
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => {
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="bg-blue-300 "
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="text-slate-200">
+                        {cell.column.id === "rank" ? (
+                          <div className="flex items-center">
+                            <img
+                              src={getRankImage(cell.getValue() as string)}
+                              className="h-8 w-8 mr-2"
+                              alt={`Rank ${cell.getValue()}`}
+                            />
+                            <span>{String(cell.getValue())}</span>
+                          </div>
+                        ) : (
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => {
-              return (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="bg-blue-300 "
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-slate-200">
-                      {cell.column.id === "rank" ? (
-                        <div className="flex items-center">
-                          <img
-                            src={getRankImage(cell.getValue() as string)}
-                            className="h-8 w-8 mr-2"
-                            alt={`Rank ${cell.getValue()}`}
-                          />
-                          <span>{String(cell.getValue())}</span>
-                        </div>
-                      ) : (
-                        flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+              })
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 }

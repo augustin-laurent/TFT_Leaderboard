@@ -17,10 +17,13 @@ import { UpdateButton } from "@/components/UpdateButton";
 
 export default function Home() {
   const [players, setPlayers] = useState<IPlayer[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function fetchPlayers() {
+    setLoading(true);
     const response = await axios.get("/api/players");
     setPlayers(response.data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export default function Home() {
     <main className="w-screen h-screen flex flex-col">
       <Header />
       <div className="container flex flex-col justify-center items-center flex-grow">
-        <DataTable columns={Columns()} data={players} />
+        <DataTable columns={Columns(fetchPlayers)} data={players} loading={loading} />
         <SignedIn>
           <UpdateButton />
           <PlayerInput
