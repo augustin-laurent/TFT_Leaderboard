@@ -49,7 +49,7 @@ const rankSortingFn = (rowA: any, rowB: any, columnId: any) => {
   return rankA - rankB;
 };
 
-export function Columns() {
+export function Columns(fetchPlayers: () => void) {
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
 
@@ -166,8 +166,8 @@ export function Columns() {
       cell: ({ row }) => {
         const handleDelete = async () => {
           try {
-            console.log(row.original._id);
             await axios.delete("/api/players", { data: { id: row.original._id } });
+            fetchPlayers();
           } catch (error) {
             console.error("Failed to delete player:", error);
           }

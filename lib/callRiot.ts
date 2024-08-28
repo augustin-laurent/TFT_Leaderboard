@@ -1,3 +1,5 @@
+import { cp } from "fs";
+
 async function getPlayerPUUID(nickname: string, tag: string) {
   const url = `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${nickname}/${tag}?api_key=${process.env.RIOT_API_KEY}`;
   try {
@@ -13,7 +15,7 @@ async function getPlayerPUUID(nickname: string, tag: string) {
 }
 
 async function getPlayerID(puuid: string) {
-  const url = `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}?api_key=${process.env._RIOT_API_KEY}`;
+  const url = `https://euw1.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}?api_key=${process.env.RIOT_API_KEY}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
