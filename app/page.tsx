@@ -2,18 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { SignedIn } from "@clerk/nextjs";
+import axios from "axios";
 
 import { IPlayer } from "@/models/player";
 
-import axios from "axios";
+import { Columns } from "@/app/columns/column";
 
 import { DataTable } from "@/components/DataTable";
 import { PlayerInput } from "@/components/PlayerInput";
 import { Header } from "@/components/Header";
-
-import { Columns } from "@/app/columns/column";
 import { Footer } from "@/components/Footer";
 import { UpdateButton } from "@/components/UpdateButton";
+
 
 export default function Home() {
   const [players, setPlayers] = useState<IPlayer[]>([]);
