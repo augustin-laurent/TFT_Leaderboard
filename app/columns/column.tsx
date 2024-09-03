@@ -46,6 +46,11 @@ const rankValues: { [key: string]: number } = {
 const rankSortingFn = (rowA: any, rowB: any, columnId: any) => {
   const rankA = rankValues[rowA.getValue(columnId)] || 0;
   const rankB = rankValues[rowB.getValue(columnId)] || 0;
+  if (rankA === rankB) {
+    const lpA = rowA.getValue("lp") || 0;
+    const lpB = rowB.getValue("lp") || 0;
+    return lpA - lpB;
+  }
   return rankA - rankB;
 };
 
@@ -59,17 +64,7 @@ export function Columns(fetchPlayers: () => void) {
       accessorKey: "riotName",
     },
     {
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            LP
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        );
-      },
+      header: "LP",
       accessorKey: "lp",
     },
     {
