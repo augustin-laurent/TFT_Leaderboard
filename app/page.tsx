@@ -36,7 +36,7 @@ export default function Home() {
       <div className="container flex flex-col justify-center items-center flex-grow">
         <DataTable columns={Columns(fetchPlayers)} data={players} loading={loading} />
         <SignedIn>
-          <UpdateButton />
+          <UpdateButton fetchPlayers={fetchPlayers}/>
           <PlayerInput
             players={players}
             setPlayers={setPlayers}
