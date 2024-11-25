@@ -5,8 +5,6 @@ import { IPlayer } from "@/models/player";
 
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/clerk-react";
-import axios from "axios";
 
 const rankValues: { [key: string]: number } = {
   "IRON IV": 1,
@@ -37,10 +35,10 @@ const rankValues: { [key: string]: number } = {
   "DIAMOND III": 26,
   "DIAMOND II": 27,
   "DIAMOND I": 28,
-  MASTER: 29,
-  GRANDMASTER: 30,
-  CHALLENGER: 31,
-  UNRANKED: 32,
+  "MASTER": 29,
+  "GRANDMASTER": 30,
+  "CHALLENGER": 31,
+  "UNRANKED": 32,
 };
 
 const rankSortingFn = (rowA: any, rowB: any, columnId: any) => {
@@ -54,8 +52,7 @@ const rankSortingFn = (rowA: any, rowB: any, columnId: any) => {
   return rankA - rankB;
 };
 
-export function Columns(fetchPlayers: () => void) {
-  const { user } = useUser();
+export function Columns(fetchPlayers: () => void, user: any) {
   const isAdmin = user?.publicMetadata?.role === "admin";
 
   const columns: ColumnDef<IPlayer>[] = [
@@ -161,8 +158,17 @@ export function Columns(fetchPlayers: () => void) {
       cell: ({ row }) => {
         const handleDelete = async () => {
           try {
-            await axios.delete("/api/players", { data: { id: row.original._id } });
-            fetchPlayers();
+            const response = await fetch("/api/players", {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: row.original._id }),
+            });
+            if (!response.ok) {
+              throw new Error("Failed to delete player");
+            }
+            fetchPlayers(); // Refresh table data after deleting player
           } catch (error) {
             console.error("Failed to delete player:", error);
           }

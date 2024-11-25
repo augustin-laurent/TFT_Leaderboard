@@ -13,6 +13,15 @@ import {
 
 export async function GET() {
   try {
+    await updatePlayers();
+    return NextResponse.json({ message: "Players updated" });
+  } catch (error) {
+    return NextResponse.json({ message: "Error updating players" });
+  }
+}
+
+async function updatePlayers() {
+  try {
     await connectDB();
     const players = await Player.find();
 
@@ -44,9 +53,9 @@ export async function GET() {
       });
     }
     console.log("Players updated");
-    return NextResponse.json({ message: "Players updated" });
   } catch (error) {
     console.error("Error updating players", error);
-    return NextResponse.json({ message: "Error updating players" });
   }
 }
+
+setInterval(updatePlayers, 5 * 60 * 1000);
